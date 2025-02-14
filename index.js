@@ -32,6 +32,7 @@ const {
   const util = require('util')
   const { sms,downloadMediaMessage } = require('./lib/msg')
   const FileType = require('file-type');
+  const { execSync } = require("child_process");
   const axios = require('axios')
   const { File } = require('megajs')
   const { fromBuffer } = require('file-type')
@@ -80,7 +81,7 @@ console.log("Session downloaded ✅")
   //=============================================
   
   async function connectToWA() {
-  console.log("Connecting vortex to WhatsApp ⏳️...");
+  console.log("Connecting silva spark to WhatsApp ⏳️...");
   const { state, saveCreds } = await useMultiFileAuthState(__dirname + '/sessions/')
   var { version } = await fetchLatestBaileysVersion()
   
@@ -93,75 +94,41 @@ console.log("Session downloaded ✅")
           version
           })
       
-  conn.ev.on('connection.update', (update) => {
-  const fs = require("fs");
-const path = require("path");
-const axios = require("axios");
-const https = require("https");
+conn.ev.on('connection.update', (update) => {
+const REPO_URL = "https://github.com/kinghansmd/Vortex-xmd-data-base.git";
+const CLONE_DIR = "./Vortex-xmd-data-base";
+const PLUGIN_DIR = path.join(CLONE_DIR, "plugins");
 
-const GITHUB_REPO_URL = "https://api.github.com/repos/kinghansmd/Vortex-xmd-data-base/contents/plugins";
-
-// Fetch plugin list from GitHub
-async function fetchPluginsFromGitHub() {
-  try {
-    const response = await axios.get(GITHUB_REPO_URL, {
-      headers: { "User-Agent": "Node.js" },
-    });
-
-    return response.data
-      .filter((file) => file.name.endsWith(".js")) // Get only JS files
-      .map((file) => file.download_url);
-  } catch (error) {
-    console.error("Error fetching plugins:", error);
-    return [];
+// Clone or update the repo
+function updateRepo() {
+  if (!fs.existsSync(CLONE_DIR)) {
+    console.log("Cloning plugin repository...");
+    execSync(`git clone ${REPO_URL} ${CLONE_DIR}`, { stdio: "inherit" });
+  } else {
+    console.log("Updating plugin repository...");
+    execSync(`git -C ${CLONE_DIR} pull`, { stdio: "inherit" });
   }
 }
 
-// Download plugin file
-async function downloadPlugin(url, filename) {
-  return new Promise((resolve, reject) => {
-    const file = fs.createWriteStream(`./plugins/${filename}`);
-    https.get(url, (response) => {
-      response.pipe(file);
-      file.on("finish", () => {
-        file.close(resolve);
-      });
-    }).on("error", (error) => {
-      fs.unlink(`./plugins/${filename}`, () => {}); // Delete failed file
-      reject(error);
-    });
-  });
-}
+// Require plugins from the repo
+function loadPlugins() {
+  updateRepo(); // Ensure repo is updated
 
-// Load plugins
-async function loadPlugins() {
-  const pluginUrls = await fetchPluginsFromGitHub();
-  if (!fs.existsSync("./plugins")) {
-    fs.mkdirSync("./plugins");
-  }
-
-  for (const url of pluginUrls) {
-    const filename = path.basename(url);
-    await downloadPlugin(url, filename);
-    console.log(`Downloaded: ${filename}`);
-  }
-
-  // Require downloaded plugins
-  fs.readdirSync("./plugins/").forEach((plugin) => {
+  fs.readdirSync(PLUGIN_DIR).forEach((plugin) => {
     if (path.extname(plugin).toLowerCase() === ".js") {
-      require(`./plugins/${plugin}`);
+      require(path.join(__dirname, PLUGIN_DIR, plugin));
       console.log(`Loaded plugin: ${plugin}`);
     }
   });
 }
 
-// Run the loader
+// Run
 loadPlugins();
 
   console.log('Plugins installed successful ✅')
   console.log('Bot connected to whatsapp ✅')
   
-  let up = `*Hello there 𝑉𝑜𝑟𝒕𝒆𝒙 𝑿𝒎𝒅 User! \ud83d\udc4b\ud83c\udffb* \n\n> This is auser friendly whatsapp bot created by HansTz Tech Inc \ud83c\udf8a, Meet 𝑉𝑜𝑟𝒕𝒆𝒙 𝑿𝒎𝒅 WhatsApp Bot.\n\n *Thanks for using 𝑉𝑜𝑟𝒕𝒆𝒙 𝑿𝒎𝒅 \ud83d\udea9* \n\n> follow WhatsApp Channel :- 💖\n \nhttps://whatsapp.com/channel/0029Vb4a985InlqSS0l3ro3c\n\nChannel2 :- 😌\n\n> Follow the HANS_MD-WHA-BOT channel on WhatsApp: https://whatsapp.com/channel/0029VasiOoR3bbUw5aV4qB31\n\n- *YOUR PREFIX:* = ${prefix}\n\nDont forget to give star to repo ⬇️\n\nhttps://github.com/Mrhanstz/VORTEX-XMD\n\n> © Powered BY 𝑯𝒂𝒏𝒔𝑻𝒛 \ud83d\udda4`;
+  let up = `*Hello there 𝑉𝑜𝑟𝒕𝒆𝒙 𝑿𝒎𝒅 User! \ud83d\udc4b\ud83c\udffb* \n\n> This is auser friendly whatsapp bot created by Silva Tech Inc \ud83c\udf8a, Meet 𝑉𝑜𝑟𝒕𝒆𝒙 𝑿𝒎𝒅 WhatsApp Bot.\n\n *Thanks for using 𝑉𝑜𝑟𝒕𝒆𝒙 𝑿𝒎𝒅 \ud83d\udea9* \n\n> follow WhatsApp Channel :- 💖\n \nhttps://whatsapp.com/channel/0029Vb4a985InlqSS0l3ro3c\n\nChannel2 :- 😌\n\n> Follow the HANS_MD-WHA-BOT channel on WhatsApp: https://whatsapp.com/channel/0029VasiOoR3bbUw5aV4qB31\n\n- *YOUR PREFIX:* = ${prefix}\n\nDont forget to give star to repo ⬇️\n\nhttps://github.com/Mrhanstz/VORTEX-XMD\n\n> © Powered BY 𝑯𝒂𝒏𝒔𝑻𝒛 \ud83d\udda4`;
   conn.sendMessage(conn.user.id, { image: { url: `https://files.catbox.moe/lvvpzw.jpeg` }, caption: up })
   }
   })
