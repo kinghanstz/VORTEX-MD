@@ -112,31 +112,33 @@ console.log("Session downloaded ✅")
   
   let up = `
 ╭═══════════════◇  
-│ 🎵 *Hello there, Vortex XMD User!* 👋🏼  
-│ 🤖 *Meet Vortex XMD, your WhatsApp assistant!*  
-│ 🚀 Developed by *HansTz Tech Inc*  
+│ 🎵 Hello there, Vortex XMD User! 👋🏼  
+│ 🤖 Meet Vortex XMD, your WhatsApp assistant!*  
+│ 🚀 Developed by HansTz Tech Inc  
 ╰═══════════════◇  
 
 📌 *Thank you for using Vortex XMD!* 🚩  
 
-╭═══❖• 🔹 *Stay Connected:*  
-│ 📌 *Join our WhatsApp Channel:* 💖  
-│ 👉 https://whatsapp.com/channel/0029Vb4a985InlqSS0l3ro3c  
-│  
-│ 📌 *Channel 2:* 😌  
-│ 👉 https://whatsapp.com/channel/0029VasiOoR3bbUw5aV4qB31  
-╰═════════════════◇  
+╭═══❖•🔹Stay Connected:*  
+│📌Join our WhatsApp Channel
+│═══════════════◇  
+ https://whatsapp.com/channel/0029Vb4a985InlqSS0l3ro3c  
+│═══════════════◇   
+│         📌Channel 2
+│═══════════════◇  
+ https://whatsapp.com/channel/0029VasiOoR3bbUw5aV4qB31  
+╰═══════════════◇  
 
-╭═══❖• 🔹 *Bot Information:*  
-│ 🔹*YOUR PREFIX:* ${prefix}  
-╰═════════════════◇  
+╭═══❖•🔹Bot Control
+│🔹YOUR PREFIX:* ${prefix}  
+╰═══════════════◇  
 
 ╭═══❖• 🔹 *Support & Repo:*  
-│ ⭐ *Give a star to our GitHub repo:*  
-│ 👉 https://github.com/Mrhanstz/VORTEX-XMD  
-╰═════════════════◇  
+│⭐Give a star to our GitHub repo
+│https://github.com/Mrhanstz/VORTEX-XMD  
+╰═══════════════◇  
 
-⚡ *© Powered by HansTz 🖤*`;
+⚡ *© Powered by HansTz 🇹🇿*`;
   conn.sendMessage(conn.user.id, { image: { url: `https://files.catbox.moe/lvvpzw.jpeg` }, caption: up })
   }
   })
