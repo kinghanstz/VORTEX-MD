@@ -80,7 +80,7 @@ console.log("Session downloaded ✅")
   //=============================================
   
   async function connectToWA() {
-  console.log("Connecting silva spark to WhatsApp ⏳️...");
+  console.log("Connecting vortex to WhatsApp ⏳️...");
   const { state, saveCreds } = await useMultiFileAuthState(__dirname + '/sessions/')
   var { version } = await fetchLatestBaileysVersion()
   
@@ -94,24 +94,74 @@ console.log("Session downloaded ✅")
           })
       
   conn.ev.on('connection.update', (update) => {
-  const { connection, lastDisconnect } = update
-  if (connection === 'close') {
-  if (lastDisconnect.error.output.statusCode !== DisconnectReason.loggedOut) {
-  connectToWA()
-  }
-  } else if (connection === 'open') {
-  console.log('🧬 Installing vortex xmd Plugins')
-  const path = require('path');
-  fs.readdirSync("./plugins/HansTz.js").forEach((plugin) => {
-  if (path.extname(plugin).toLowerCase() == ".js") {
-  require("./plugins/HansTz.js");
+  const fs = require("fs");
+const path = require("path");
+const axios = require("axios");
+const https = require("https");
 
+const GITHUB_REPO_URL = "https://api.github.com/repos/kinghansmd/Vortex-xmd-data-base/contents/plugins";
+
+// Fetch plugin list from GitHub
+async function fetchPluginsFromGitHub() {
+  try {
+    const response = await axios.get(GITHUB_REPO_URL, {
+      headers: { "User-Agent": "Node.js" },
+    });
+
+    return response.data
+      .filter((file) => file.name.endsWith(".js")) // Get only JS files
+      .map((file) => file.download_url);
+  } catch (error) {
+    console.error("Error fetching plugins:", error);
+    return [];
   }
+}
+
+// Download plugin file
+async function downloadPlugin(url, filename) {
+  return new Promise((resolve, reject) => {
+    const file = fs.createWriteStream(`./plugins/${filename}`);
+    https.get(url, (response) => {
+      response.pipe(file);
+      file.on("finish", () => {
+        file.close(resolve);
+      });
+    }).on("error", (error) => {
+      fs.unlink(`./plugins/${filename}`, () => {}); // Delete failed file
+      reject(error);
+    });
   });
+}
+
+// Load plugins
+async function loadPlugins() {
+  const pluginUrls = await fetchPluginsFromGitHub();
+  if (!fs.existsSync("./plugins")) {
+    fs.mkdirSync("./plugins");
+  }
+
+  for (const url of pluginUrls) {
+    const filename = path.basename(url);
+    await downloadPlugin(url, filename);
+    console.log(`Downloaded: ${filename}`);
+  }
+
+  // Require downloaded plugins
+  fs.readdirSync("./plugins/").forEach((plugin) => {
+    if (path.extname(plugin).toLowerCase() === ".js") {
+      require(`./plugins/${plugin}`);
+      console.log(`Loaded plugin: ${plugin}`);
+    }
+  });
+}
+
+// Run the loader
+loadPlugins();
+
   console.log('Plugins installed successful ✅')
   console.log('Bot connected to whatsapp ✅')
   
-  let up = `*Hello there 𝑉𝑜𝑟𝒕𝒆𝒙 𝑿𝒎𝒅 User! \ud83d\udc4b\ud83c\udffb* \n\n> This is auser friendly whatsapp bot created by Silva Tech Inc \ud83c\udf8a, Meet 𝑉𝑜𝑟𝒕𝒆𝒙 𝑿𝒎𝒅 WhatsApp Bot.\n\n *Thanks for using 𝑉𝑜𝑟𝒕𝒆𝒙 𝑿𝒎𝒅 \ud83d\udea9* \n\n> follow WhatsApp Channel :- 💖\n \nhttps://whatsapp.com/channel/0029Vb4a985InlqSS0l3ro3c\n\nChannel2 :- 😌\n\n> Follow the HANS_MD-WHA-BOT channel on WhatsApp: https://whatsapp.com/channel/0029VasiOoR3bbUw5aV4qB31\n\n- *YOUR PREFIX:* = ${prefix}\n\nDont forget to give star to repo ⬇️\n\nhttps://github.com/Mrhanstz/VORTEX-XMD\n\n> © Powered BY 𝑯𝒂𝒏𝒔𝑻𝒛 \ud83d\udda4`;
+  let up = `*Hello there 𝑉𝑜𝑟𝒕𝒆𝒙 𝑿𝒎𝒅 User! \ud83d\udc4b\ud83c\udffb* \n\n> This is auser friendly whatsapp bot created by HansTz Tech Inc \ud83c\udf8a, Meet 𝑉𝑜𝑟𝒕𝒆𝒙 𝑿𝒎𝒅 WhatsApp Bot.\n\n *Thanks for using 𝑉𝑜𝑟𝒕𝒆𝒙 𝑿𝒎𝒅 \ud83d\udea9* \n\n> follow WhatsApp Channel :- 💖\n \nhttps://whatsapp.com/channel/0029Vb4a985InlqSS0l3ro3c\n\nChannel2 :- 😌\n\n> Follow the HANS_MD-WHA-BOT channel on WhatsApp: https://whatsapp.com/channel/0029VasiOoR3bbUw5aV4qB31\n\n- *YOUR PREFIX:* = ${prefix}\n\nDont forget to give star to repo ⬇️\n\nhttps://github.com/Mrhanstz/VORTEX-XMD\n\n> © Powered BY 𝑯𝒂𝒏𝒔𝑻𝒛 \ud83d\udda4`;
   conn.sendMessage(conn.user.id, { image: { url: `https://files.catbox.moe/lvvpzw.jpeg` }, caption: up })
   }
   })
