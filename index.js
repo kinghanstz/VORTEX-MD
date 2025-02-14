@@ -105,7 +105,7 @@ if (connection === 'close') {
   
   // Directly require the specific plugin
   require("./plugins/HansTz.js");
-});
+}
 
   console.log('Plugins installed successful ✅')
   console.log('Bot connected to whatsapp ✅')
