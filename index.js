@@ -120,7 +120,7 @@ function loadPlugins() {
       console.log(`Loaded plugin: ${plugin}`);
     }
   });
-}
+
 
 // Run
 loadPlugins();
