@@ -2,25 +2,25 @@ const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
 
-// GitHub raw URL for plugin files
+// GitHub repository where plugins are stored
 const GITHUB_PLUGINS_URL = 'https://raw.githubusercontent.com/kinghansmd/Vortex-xmd-data-base/main/plugins/';
 
-// List of plugin files to fetch
+// List of plugin files to fetch from GitHub
 const pluginFiles = [
-    'menu.js', // Add more plugin filenames here
+    'menu.js',  // Add more plugin filenames here
 ];
 
 // Local plugins directory
 const pluginsDir = path.join(__dirname, 'plugins');
 
-// Ensure plugins directory exists
+// Ensure the plugins directory exists
 if (!fs.existsSync(pluginsDir)) {
     fs.mkdirSync(pluginsDir, { recursive: true });
 }
 
-// Function to download and execute plugins
-async function loadPlugins() {
-    console.log('Downloading and loading plugins from GitHub...');
+// Function to download plugins
+async function downloadPlugins() {
+    console.log('🔄 Downloading latest plugins from GitHub...');
 
     for (let file of pluginFiles) {
         try {
@@ -30,34 +30,27 @@ async function loadPlugins() {
             if (response.status === 200) {
                 let filePath = path.join(pluginsDir, file);
                 fs.writeFileSync(filePath, response.data, 'utf8');
-                console.log(`Loaded plugin: ${file}`);
-
-                // Execute plugin script
-                require(filePath);
+                console.log(`✅ Plugin loaded: ${file}`);
             }
         } catch (error) {
-            console.error(`Failed to load plugin: ${file}`, error.message);
+            console.error(`❌ Failed to load plugin: ${file}`, error.message);
         }
     }
 }
 
-// Initialize Plugins
-loadPlugins().then(() => {
-    console.log('All plugins loaded successfully!');
-});
-
-// Example Command Handling (Replace with your bot framework)
-const commandHandler = (command) => {
-    if (command === '.menu') {
-        console.log('Executing menu command from plugin...');
-        // Call the menu function from the loaded plugin
-        if (global.menuCommand) {
-            global.menuCommand();
-        } else {
-            console.log('Menu command not found in plugins.');
+// Function to install and execute plugins
+function installPlugins() {
+    console.log('🛠 Installing plugins...');
+    fs.readdirSync(pluginsDir).forEach((plugin) => {
+        if (path.extname(plugin).toLowerCase() === '.js' && plugin !== 'HansTz.js') {
+            require(path.join(pluginsDir, plugin));
+            console.log(`🚀 Plugin installed: ${plugin}`);
         }
-    }
-};
+    });
+}
 
-// Simulated command execution (Replace with WhatsApp Bot API)
-commandHandler('.menu');
+// Main function to update and install plugins
+(async () => {
+    await downloadPlugins();
+    installPlugins();
+})();
