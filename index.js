@@ -110,10 +110,79 @@ console.log("Session downloaded ✅")
   console.log('Plugins installed successful ✅')
   console.log('Bot connected to whatsapp ✅')
   
-  let up = `*Hello there 𝑉𝑜𝑟𝒕𝒆𝒙 𝑿𝒎𝒅 User! \ud83d\udc4b\ud83c\udffb* \n\n> This is auser friendly whatsapp bot created by HansTz Tech Inc \ud83c\udf8a, Meet 𝑉𝑜𝑟𝒕𝒆𝒙 𝑿𝒎𝒅 WhatsApp Bot.\n\n *Thanks for using 𝑉𝑜𝑟𝒕𝒆𝒙 𝑿𝒎𝒅 \ud83d\udea9* \n\n> follow WhatsApp Channel :- 💖\n \nhttps://whatsapp.com/channel/0029Vb4a985InlqSS0l3ro3c\n\nChannel2 :- 😌\n\n> Follow the HANS_MD-WHA-BOT channel on WhatsApp: https://whatsapp.com/channel/0029VasiOoR3bbUw5aV4qB31\n\n- *YOUR PREFIX:* = ${prefix}\n\nDont forget to give star to repo ⬇️\n\nhttps://github.com/Mrhanstz/VORTEX-XMD\n\n> © Powered BY 𝑯𝒂𝒏𝒔𝑻𝒛 \ud83d\udda4`;
-  conn.sendMessage(conn.user.id, { image: { url: `https://files.catbox.moe/n1j0au.jpg` }, caption: up })
-  }
-  })
+// Get bot uptime
+let uptime = process.uptime(); // Uptime in seconds
+let uptimeFormatted = new Date(uptime * 1000).toISOString().substr(11, 8); // Format HH:MM:SS
+
+// Get current time based on user's time zone from Heroku env variable
+const TIME_ZONE = process.env.TIME_ZONE || "Africa/Tanzania"; // Default to Africa/Tanzania if not set
+let now = new Date().toLocaleString("en-US", { timeZone: TIME_ZONE });
+let hour = new Date(now).getHours();
+
+// Determine greeting based on time
+let greeting;
+if (hour >= 5 && hour < 12) {
+  greeting = "🌅 Good Morning";
+} else if (hour >= 12 && hour < 18) {
+  greeting = "☀️ Good Afternoon";
+} else {
+  greeting = "🌙 Good Evening";
+}
+
+// Fetch GitHub repo details (stars & forks)
+axios.get("https://api.github.com/repos/Mrhanstz/VORTEX-XMD").then(response => {
+  let stars = response.data.stargazers_count;
+  let forks = response.data.forks_count;
+
+  let up = `
+╭═════════════════◇
+│📌*${greeting},> Vortex XMD User!*`👋🏼` 
+╰═════════════════◇
+  
+╭═════════════════◇  
+│🎵 *Welcome to 𝑉𝑜𝑟𝑡𝒆𝒙 𝑿𝒎𝒅!* 🎵  
+│🤖 *Your Advanced WhatsApp Bot*  
+│🚀 Developed by *HansTz Tech Inc*  
+╰═════════════════◇  
+
+I’m here to enhance your WhatsApp experience with AI-powered features, automation, and more!  
+
+╭══❖• 🔹 *Bot Information:*═══◇  
+│✨ *Developer:* HansTz Tech Inc 🎉  
+│🔹 *Prefix:* ${prefix}  
+│⏳ *Bot Uptime:* ${uptimeFormatted} ⏰  
+│🌍 *Time Zone:* ${TIME_ZONE}  
+╰══════════════════◇  
+
+╭═══❖•🔹*Stay Connected:*═══◇
+│📌 *Join our WhatsApp Channel:* 💖 
+│══════════════════◇
+│👉 https://whatsapp.com/channel/0029Vb4a985InlqSS0l3ro3c  
+│  
+│📌 *Channel 2:* 😌  
+│══════════════════◇
+│👉 https://whatsapp.com/channel/0029VasiOoR3bbUw5aV4qB31  
+╰══════════════════◇  
+
+╭══❖•🔹*GitHub Repository Info:*═◇ 
+│⭐ *Stars:* ${stars}  
+│🍴 *Forks:* ${forks} 
+│👥 *Users*: ${userCount} 
+╰══════════════════◇`;
+
+  // Audio file URL
+  const audioUrl = 'https://github.com/devhanstz/VORTEX-XMD-DATA/raw/refs/heads/main/KingHans/Menu.mp3';
+
+  // Send message with the audio only (no additional caption or message)
+  conn.sendMessage(conn.user.id, { 
+    audio: { url: audioUrl }, 
+    mimetype: 'audio/mp3' 
+  });
+
+}).catch(error => {
+  console.error("Failed to fetch GitHub repo data:", error);
+});
+
   conn.ev.on('creds.update', saveCreds)  
           
   //=============readstatus=======
