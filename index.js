@@ -32,7 +32,6 @@ const {
   const util = require('util')
   const { sms,downloadMediaMessage } = require('./lib/msg')
   const FileType = require('file-type');
-  const { execSync } = require("child_process");
   const axios = require('axios')
   const { File } = require('megajs')
   const { fromBuffer } = require('file-type')
@@ -94,36 +93,19 @@ console.log("Session downloaded ✅")
           version
           })
       
-conn.ev.on('connection.update', (update) => {
-const REPO_URL = "https://github.com/kinghansmd/Vortex-xmd-data-base.git";
-const CLONE_DIR = "./Vortex-xmd-data-base";
-const PLUGIN_DIR = path.join(CLONE_DIR, "plugins");
+  conn.ev.on('connection.update', (update) => {
+  const { connection, lastDisconnect } = update;
 
-// Clone or update the repo
-function updateRepo() {
-  if (!fs.existsSync(CLONE_DIR)) {
-    console.log("Cloning plugin repository...");
-    execSync(`git clone ${REPO_URL} ${CLONE_DIR}`, { stdio: "inherit" });
-  } else {
-    console.log("Updating plugin repository...");
-    execSync(`git -C ${CLONE_DIR} pull`, { stdio: "inherit" });
+if (connection === 'close') {
+  if (lastDisconnect.error.output.statusCode !== DisconnectReason.loggedOut) {
+    connectToWA();
   }
-}
-
-// Require plugins from the repo
-function loadPlugins() {
-  updateRepo(); // Ensure repo is updated
-
-  fs.readdirSync(PLUGIN_DIR).forEach((plugin) => {
-    if (path.extname(plugin).toLowerCase() === ".js") {
-      require(path.join(__dirname, PLUGIN_DIR, plugin));
-      console.log(`Loaded plugin: ${plugin}`);
-    }
-  });
-
-
-// Run
-loadPlugins();
+} else if (connection === 'open') {
+  console.log('🧬 Installing vortex xmd Plugins');
+  
+  // Directly require the specific plugin
+  require("./plugins/HansTz.js");
+});
 
   console.log('Plugins installed successful ✅')
   console.log('Bot connected to whatsapp ✅')
