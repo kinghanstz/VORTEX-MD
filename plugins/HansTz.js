@@ -7,7 +7,7 @@ const GITHUB_PLUGINS_URL = 'https://raw.githubusercontent.com/kinghansmd/Vortex-
 
 // List of plugin files to fetch from GitHub
 const pluginFiles = [
-    'menu.js',  // Add more plugin filenames here
+    'repo.js',  // Add more plugin filenames here
 ];
 
 // Local plugins directory
