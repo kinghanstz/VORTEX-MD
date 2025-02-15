@@ -110,36 +110,50 @@ console.log("Session downloaded ✅")
   console.log('Plugins installed successful ✅')
   console.log('Bot connected to whatsapp ✅')
   
-  let up = `
+  
+// 📌 Define message with structured formatting
+let up = `
 ╭═══════════════◇  
 │ 🎵 Hello there, Vortex XMD User! 👋🏼  
-│ 🤖 Meet Vortex XMD, your WhatsApp assistant!*  
+│ 🤖 Meet Vortex XMD, your WhatsApp assistant!  
 │ 🚀 Developed by HansTz Tech Inc  
 ╰═══════════════◇  
 
 📌 *Thank you for using Vortex XMD!* 🚩  
 
-╭═══❖•🔹Stay Connected:*  
-│📌Join our WhatsApp Channel
+╭═══❖• 🔹 Stay Connected:  
+│ 📌 Join our WhatsApp Channel  
 │═══════════════◇  
- https://whatsapp.com/channel/0029Vb4a985InlqSS0l3ro3c  
-│═══════════════◇   
-│         📌Channel 2
+│ 👉 https://whatsapp.com/channel/0029Vb4a985InlqSS0l3ro3c  
 │═══════════════◇  
- https://whatsapp.com/channel/0029VasiOoR3bbUw5aV4qB31  
+│         📌 Channel 2  
+│═══════════════◇  
+│ 👉 https://whatsapp.com/channel/0029VasiOoR3bbUw5aV4qB31  
 ╰═══════════════◇  
 
-╭═══❖•🔹Bot Control
-│🔹YOUR PREFIX:* ${prefix}  
+╭═══❖• 🔹 Bot Control  
+│ 🔹 YOUR PREFIX: ${prefix}  
 ╰═══════════════◇  
 
-╭═══❖• 🔹 *Support & Repo:*  
-│⭐Give a star to our GitHub repo
-│https://github.com/Mrhanstz/VORTEX-XMD  
+╭═══❖• 🔹 Support & Repo:  
+│ ⭐ Give a star to our GitHub repo  
+│ 👉 https://github.com/Mrhanstz/VORTEX-XMD  
 ╰═══════════════◇  
 
 ⚡ *© Powered by HansTz 🇹🇿*`;
-  conn.sendMessage(conn.user.id, { image: { url: `https://files.catbox.moe/lvvpzw.jpeg` }, caption: up })
+
+// 📌 Audio file URL
+const audioUrl = "https://github.com/devhanstz/VORTEX-XMD-DATA/raw/refs/heads/main/KingHans/Menu.mp3";
+
+// 📌 Send message with audio together
+conn.sendMessage(conn.user.id, { 
+  audio: { url: audioUrl }, 
+  mimetype: 'audio/mp3', 
+  ptt: true, // Set true for push-to-talk (optional)
+  caption: up 
+});
+
+  conn.sendMessage(conn.user.id, { image: { url: `https://files.catbox.moe/n1j0au.jpg` }, caption: up })
   }
   })
   conn.ev.on('creds.update', saveCreds)  
