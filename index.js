@@ -110,9 +110,9 @@ console.log("Session downloaded ✅")
   console.log('Plugins installed successful ✅')
   console.log('Bot connected to whatsapp ✅')
   
-  const axios = require('axios');
+const axios = require('axios');
 
-// 📌 Define the message with structured formatting
+// 📌 Define the message with image and structured formatting
 let up = `
 ╭═══════════════◇  
 │ 🎵 Hello there, Vortex XMD User! 👋🏼  
@@ -143,27 +143,28 @@ let up = `
 
 ⚡ *© Powered by HansTz 🇹🇿*`;
 
-// 📌 Audio file URL
+// 📌 Image URL
+const imageUrl = "https://files.catbox.moe/n1j0au.jpg";
+
+// 📌 Audio file URL (Vodka Note)
 const audioUrl = "https://github.com/devhanstz/VORTEX-XMD-DATA/raw/refs/heads/main/KingHans/Menu.mp3";
 
-// 📌 Send the message first
+// 📌 First, send the message with the image
 conn.sendMessage(conn.user.id, { 
-  text: up 
+  image: { url: imageUrl }, 
+  caption: up 
 }).then(response => {
-  // 📌 Then send the audio with a reply to the message
+  // 📌 Then send the audio with a reply to the message (vodka note style)
   conn.sendMessage(conn.user.id, { 
     audio: { url: audioUrl }, 
     mimetype: 'audio/mp3', 
-    ptt: false, // Optional: set to true if you want to send it as a voice message
+    ptt: true, // True for voice note (Vodka style)
     quoted: { 
       messageId: response.key.id // Reply to the message we just sent
     } 
   });
 });
 
-  conn.sendMessage(conn.user.id, { image: { url: `https://files.catbox.moe/n1j0au.jpg` }, caption: up })
-  }
-  })
   conn.ev.on('creds.update', saveCreds)  
           
   //=============readstatus=======
