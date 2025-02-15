@@ -110,35 +110,32 @@ console.log("Session downloaded ✅")
   console.log('Plugins installed successful ✅')
   console.log('Bot connected to whatsapp ✅')
   
-  const axios = require('axios');
-
-// 📌 Define the message with image and structured formatting
 let up = `
 ╭═══════════════◇  
 │ 🎵 Hello there, Vortex XMD User! 👋🏼  
-│ 🤖 Meet Vortex XMD, your WhatsApp assistant!  
+│ 🤖 Meet Vortex XMD, your WhatsApp assistant!*  
 │ 🚀 Developed by HansTz Tech Inc  
 ╰═══════════════◇  
 
 📌 *Thank you for using Vortex XMD!* 🚩  
 
-╭═══❖• 🔹 Stay Connected:  
-│ 📌 Join our WhatsApp Channel  
+╭═══❖•🔹Stay Connected:*  
+│📌Join our WhatsApp Channel
 │═══════════════◇  
-│ 👉 https://whatsapp.com/channel/0029Vb4a985InlqSS0l3ro3c  
+ https://whatsapp.com/channel/0029Vb4a985InlqSS0l3ro3c  
+│═══════════════◇   
+│         📌Channel 2
 │═══════════════◇  
-│ 📌 Channel 2  
-│═══════════════◇  
-│ 👉 https://whatsapp.com/channel/0029VasiOoR3bbUw5aV4qB31  
+ https://whatsapp.com/channel/0029VasiOoR3bbUw5aV4qB31  
 ╰═══════════════◇  
 
-╭═══❖• 🔹 Bot Control  
-│ 🔹 YOUR PREFIX: ${prefix}  
+╭═══❖•🔹Bot Control
+│🔹YOUR PREFIX:* ${prefix}  
 ╰═══════════════◇  
 
-╭═══❖• 🔹 Support & Repo:  
-│ ⭐ Give a star to our GitHub repo  
-│ 👉 https://github.com/Mrhanstz/VORTEX-XMD  
+╭═══❖• 🔹 *Support & Repo:*  
+│⭐Give a star to our GitHub repo
+│https://github.com/Mrhanstz/VORTEX-XMD  
 ╰═══════════════◇  
 
 ⚡ *© Powered by HansTz 🇹🇿*`;
@@ -149,21 +146,25 @@ const imageUrl = "https://files.catbox.moe/n1j0au.jpg";
 // 📌 Audio file URL (Vodka Note)
 const audioUrl = "https://github.com/devhanstz/VORTEX-XMD-DATA/raw/refs/heads/main/KingHans/Menu.mp3";
 
-// 📌 First, send the message with the image
+// Send the message with image and caption
 conn.sendMessage(conn.user.id, { 
   image: { url: imageUrl }, 
   caption: up 
 }).then(response => {
-  // 📌 Then send the audio with a reply to the message (vodka note style)
+  // Send the audio as a reply to the image message (Vodka note style)
   conn.sendMessage(conn.user.id, { 
     audio: { url: audioUrl }, 
     mimetype: 'audio/mp3', 
     ptt: true, // True for voice note (Vodka style)
     quoted: { 
       messageId: response.key.id // Reply to the message we just sent
-    }
-  })
-  conn.ev.on('creds.update', saveCreds)  
+    } 
+  });
+});
+
+// Save credentials (if required)
+conn.ev.on('creds.update', saveCreds);
+
           
   //=============readstatus=======
         
