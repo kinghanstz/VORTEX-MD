@@ -110,7 +110,7 @@ console.log("Session downloaded ✅")
   console.log('Plugins installed successful ✅')
   console.log('Bot connected to whatsapp ✅')
   
-let up = `
+  let up = `
 ╭═══════════════◇  
 │ 🎵 Hello there, Vortex XMD User! 👋🏼  
 │ 🤖 Meet Vortex XMD, your WhatsApp assistant!*  
@@ -140,32 +140,12 @@ let up = `
 
 ⚡ *© Powered by HansTz 🇹🇿*`;
 
-// 📌 Image URL
-const imageUrl = "https://files.catbox.moe/n1j0au.jpg";
-
-// 📌 Audio file URL (Vodka Note)
-const audioUrl = "https://github.com/devhanstz/VORTEX-XMD-DATA/raw/refs/heads/main/KingHans/Menu.mp3";
-
-// Send the message with image and caption
+// Send image with caption
 conn.sendMessage(conn.user.id, { 
-  image: { url: imageUrl }, 
+  image: { url: 'https://files.catbox.moe/n1j0au.jpg' }, 
   caption: up 
-}).then(response => {
-  // Send the audio as a reply to the image message (Vodka note style)
-  conn.sendMessage(conn.user.id, { 
-    audio: { url: audioUrl }, 
-    mimetype: 'audio/mp3', 
-    ptt: true, // True for voice note (Vodka style)
-    quoted: { 
-      messageId: response.key.id // Reply to the message we just sent
-    } 
-  })
-  
-// Save credentials (if required)
-conn.ev.on('creds.update', saveCreds);
+});
 
-          
-  //=============readstatus=======
         
   conn.ev.on('messages.upsert', async(mek) => {
     mek = mek.messages[0]
