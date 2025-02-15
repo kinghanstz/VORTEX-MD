@@ -110,7 +110,7 @@ console.log("Session downloaded ✅")
   console.log('Plugins installed successful ✅')
   console.log('Bot connected to whatsapp ✅')
   
-const axios = require('axios');
+  const axios = require('axios');
 
 // 📌 Define the message with image and structured formatting
 let up = `
@@ -161,10 +161,8 @@ conn.sendMessage(conn.user.id, {
     ptt: true, // True for voice note (Vodka style)
     quoted: { 
       messageId: response.key.id // Reply to the message we just sent
-    } 
-  });
-});
-
+    }
+  })
   conn.ev.on('creds.update', saveCreds)  
           
   //=============readstatus=======
