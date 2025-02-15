@@ -109,8 +109,10 @@ console.log("Session downloaded ✅")
   });
   console.log('Plugins installed successful ✅')
   console.log('Bot connected to whatsapp ✅')
+  
+  const axios = require('axios');
 
-// 📌 Define message with structured formatting
+// 📌 Define the message with structured formatting
 let up = `
 ╭═══════════════◇  
 │ 🎵 Hello there, Vortex XMD User! 👋🏼  
@@ -125,13 +127,13 @@ let up = `
 │═══════════════◇  
 │ 👉 https://whatsapp.com/channel/0029Vb4a985InlqSS0l3ro3c  
 │═══════════════◇  
-│         📌 Channel 2  
+│ 📌 Channel 2  
 │═══════════════◇  
 │ 👉 https://whatsapp.com/channel/0029VasiOoR3bbUw5aV4qB31  
 ╰═══════════════◇  
 
 ╭═══❖• 🔹 Bot Control  
-│ 🔹 YOUR PREFIX: [ ${prefix} ] 
+│ 🔹 YOUR PREFIX: ${prefix}  
 ╰═══════════════◇  
 
 ╭═══❖• 🔹 Support & Repo:  
@@ -144,12 +146,19 @@ let up = `
 // 📌 Audio file URL
 const audioUrl = "https://github.com/devhanstz/VORTEX-XMD-DATA/raw/refs/heads/main/KingHans/Menu.mp3";
 
-// 📌 First, send the audio file with the caption
+// 📌 Send the message first
 conn.sendMessage(conn.user.id, { 
-  audio: { url: audioUrl }, 
-  mimetype: 'audio/mp3', 
-  ptt: false, // Set false to keep as normal audio
-  caption: up // The message will be sent as the caption of the audio
+  text: up 
+}).then(response => {
+  // 📌 Then send the audio with a reply to the message
+  conn.sendMessage(conn.user.id, { 
+    audio: { url: audioUrl }, 
+    mimetype: 'audio/mp3', 
+    ptt: false, // Optional: set to true if you want to send it as a voice message
+    quoted: { 
+      messageId: response.key.id // Reply to the message we just sent
+    } 
+  });
 });
 
   conn.sendMessage(conn.user.id, { image: { url: `https://files.catbox.moe/n1j0au.jpg` }, caption: up })
