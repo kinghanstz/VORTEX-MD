@@ -130,7 +130,7 @@ console.log("Session downloaded ✅")
 ╰═══════════════◇  
 
 ╭═══❖•🔹Bot Control
-│🔹YOUR PREFIX:* ${prefix}  
+│🔹YOUR PREFIX:* [ ${prefix} ]
 ╰═══════════════◇  
 
 ╭═══❖• 🔹 *Support & Repo:*  
@@ -139,13 +139,12 @@ console.log("Session downloaded ✅")
 ╰═══════════════◇  
 
 ⚡ *© Powered by HansTz 🇹🇿*`;
-
-// Send image with caption
-conn.sendMessage(conn.user.id, { 
-  image: { url: 'https://files.catbox.moe/n1j0au.jpg' }, 
-  caption: up 
-});
-
+  conn.sendMessage(conn.user.id, { image: { url: `https://files.catbox.moe/n1j0au.jpg` }, caption: up })
+  }
+  })
+  conn.ev.on('creds.update', saveCreds)  
+          
+  //=============readstatus=======
         
   conn.ev.on('messages.upsert', async(mek) => {
     mek = mek.messages[0]
