@@ -109,8 +109,7 @@ console.log("Session downloaded ✅")
   });
   console.log('Plugins installed successful ✅')
   console.log('Bot connected to whatsapp ✅')
-  
-  
+
 // 📌 Define message with structured formatting
 let up = `
 ╭═══════════════◇  
@@ -132,7 +131,7 @@ let up = `
 ╰═══════════════◇  
 
 ╭═══❖• 🔹 Bot Control  
-│ 🔹 YOUR PREFIX: ${prefix}  
+│ 🔹 YOUR PREFIX: [ ${prefix} ] 
 ╰═══════════════◇  
 
 ╭═══❖• 🔹 Support & Repo:  
@@ -145,12 +144,12 @@ let up = `
 // 📌 Audio file URL
 const audioUrl = "https://github.com/devhanstz/VORTEX-XMD-DATA/raw/refs/heads/main/KingHans/Menu.mp3";
 
-// 📌 Send message with audio together
+// 📌 First, send the audio file with the caption
 conn.sendMessage(conn.user.id, { 
   audio: { url: audioUrl }, 
   mimetype: 'audio/mp3', 
-  ptt: true, // Set true for push-to-talk (optional)
-  caption: up 
+  ptt: false, // Set false to keep as normal audio
+  caption: up // The message will be sent as the caption of the audio
 });
 
   conn.sendMessage(conn.user.id, { image: { url: `https://files.catbox.moe/n1j0au.jpg` }, caption: up })
