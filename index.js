@@ -159,9 +159,8 @@ conn.sendMessage(conn.user.id, {
     quoted: { 
       messageId: response.key.id // Reply to the message we just sent
     } 
-  });
-});
-
+  })
+  
 // Save credentials (if required)
 conn.ev.on('creds.update', saveCreds);
 
