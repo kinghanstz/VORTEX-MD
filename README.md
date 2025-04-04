@@ -337,7 +337,7 @@ Stay connected with the latest updates and community by joining our official Wha
 <br>
 
 ```
-Thank you For Silva Md Bot
+Thank you for choosing 
 ```
 -----
 <a><img src='https://i.imgur.com/LyHic3i.gif'/></a>
